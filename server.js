@@ -9,7 +9,7 @@ const fileUpload = require('./routes/api/fileupload');
 const app = express();
 
 // DB Config
-const db = ENV['MONGODB_URI'];
+const db = process.env['MONGODB_URI'];
 
 //Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
