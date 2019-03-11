@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('ERROR connecting to: ' + uristring + '. ' + err));
+  .catch(err => console.log('ERROR connecting to: ' + db + '. ' + err));
 
 //Passport middleware
 app.use(passport.initialize());
