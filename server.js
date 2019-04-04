@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const path = require('path');
 
 const users = require('./routes/api/users');
 const fileUpload = require('./routes/api/fileupload');
@@ -9,35 +10,11 @@ const fileUpload = require('./routes/api/fileupload');
 const app = express();
 
 // DB Config
-const db = process.env['MONGODB_URI'];
+const db = require('./config/keys').mongoURI;
 
 //Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-//Set response headers
-app.use(function(req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Request methods you wish to allow
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
-  // Pass to next layer of middleware
-  next();
-});
 
 //Connect to MongoDB
 mongoose
@@ -54,6 +31,16 @@ require('./config/passport')(passport);
 //Use Routes
 app.use('/api/users', users);
 app.use('/api/fileupload', fileUpload);
+
+//Serve static assests if in production
+if (process.env.NODE_ENV === 'production') {
+  //Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const port = process.env.PORT || 5000;
 

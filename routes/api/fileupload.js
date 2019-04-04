@@ -32,6 +32,7 @@ router.post(
     if (!isValid) {
       return res.status(400).json(errors);
     }
+
     const result = excelToJson({
       source: req.file.buffer,
       header: {
@@ -119,7 +120,7 @@ router.get(
             categories.push(file.name);
           }
         });
-        return res.json({ categories: categories });
+        return res.json(categories);
       })
       .catch(() => res.status(404).json({ nofilefound: 'No File found' }));
   }

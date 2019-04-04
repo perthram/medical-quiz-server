@@ -6,24 +6,26 @@ module.exports = function validateFileInput(data) {
   data.mimetype = !isEmpty(data.mimetype) ? data.mimetype : '';
   data.size = !isEmpty(data.size) ? data.size.toString() : '';
 
-  if (Validator.isEmpty(data.size)) {
-    errors.size = 'Empty file not allowed';
+  if (Validator.isEmpty(data.mimetype) && Validator.isMimeType(data.mimetype)) {
+    errors.mimetype = 'File input is required';
   }
 
   if (
-    data.mimetype !==
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-    data.mimetype !== 'application/vnd.ms-excel'
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'.localeCompare(
+      data.mimetype
+    ) !== 0 &&
+    'application/vnd.ms-excel'.localeCompare(data.mimetype) !== 0
   ) {
     errors.mimetype =
       'Not a valid file format,only .xls or .xlsx format are allowed.';
   }
-  if (Validator.isEmpty(data.mimetype) || Validator.isMimeType(data.mimetype)) {
-    errors.mimetype = 'File input is required';
+
+  if (Validator.isEmpty(data.size)) {
+    errors.size = 'Empty file not allowed';
   }
 
   return {
     errors,
-    isValid: !isEmpty(errors),
+    isValid: isEmpty(errors),
   };
 };
