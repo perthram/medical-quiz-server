@@ -83,7 +83,9 @@ class SelectCategory extends Component {
               {loading && <Spinner />}
 
               <form onSubmit={this.onSubmit} ref={cmp => (this.catform = cmp)}>
-                {categoryfields && categoryfields.length > 0 ? (
+                {!isEmpty(categoryname) &&
+                categoryfields &&
+                categoryfields.length > 0 ? (
                   <React.Fragment>
                     {categoryfields.map((field, index) => (
                       <div className="form-group" key={index}>
