@@ -41,7 +41,7 @@ export default function(state = initialState, action) {
     case CLEAR_MESSAGE:
       return {
         ...state,
-        messsage: '',
+        message: '',
       };
     default:
       return state;
