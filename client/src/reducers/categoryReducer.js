@@ -7,7 +7,6 @@ import {
 } from '../actions/types';
 const initialState = {
   categories: [],
-  category: {},
   fields: [],
   message: '',
   loading: false,
@@ -25,6 +24,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         categories: action.payload,
+        fields: [],
       };
     case FETCHING:
       return {
