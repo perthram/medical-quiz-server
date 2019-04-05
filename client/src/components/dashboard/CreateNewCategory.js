@@ -139,7 +139,9 @@ class CreateNewCategory extends Component {
                   info="please type in your category name"
                   onChange={this.onChange}
                 />
-                {!isEmpty(fieldItems) && fieldItems}
+                {!isEmpty(fieldItems) &&
+                  categories.indexOf(categoryname) === -1 &&
+                  fieldItems}
                 {!isEmpty(categoryname) &&
                 categories.indexOf(categoryname) === -1 ? (
                   <input
@@ -149,16 +151,17 @@ class CreateNewCategory extends Component {
                     onClick={this.addNewField}
                   />
                 ) : null}
-                {!isEmpty(fieldItems) && (
-                  <input
-                    type="submit"
-                    value="Create Category"
-                    className={classnames('btn btn-block mt-4', {
-                      'btn-info': showErrorForFields.length === 0,
-                    })}
-                    disabled={showErrorForFields.length > 0}
-                  />
-                )}
+                {!isEmpty(fieldItems) &&
+                  categories.indexOf(categoryname) === -1 && (
+                    <input
+                      type="submit"
+                      value="Create Category"
+                      className={classnames('btn btn-block mt-4', {
+                        'btn-info': showErrorForFields.length === 0,
+                      })}
+                      disabled={showErrorForFields.length > 0}
+                    />
+                  )}
               </form>
               {!isEmpty(message) ? (
                 <div
