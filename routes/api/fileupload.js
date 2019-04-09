@@ -7,7 +7,7 @@ const isEmpty = require('../../validations/is-empty');
 
 const upload = multer();
 
-//Load User model
+//Load File model
 const FileUpload = require('../../models/File');
 //Load File Validation
 const validateFileInput = require('../../validations/file');
