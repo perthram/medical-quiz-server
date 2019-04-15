@@ -130,7 +130,7 @@ router.get(
   }
 );
 
-////@route GETapi/mobile/users/categories
+////@route GET api/mobile/users/categories
 //@desc Get All categories
 //@access Private
 
@@ -144,7 +144,7 @@ router.get(
         const categories = [];
         files.forEach(file => {
           if (file.data.length > 0) {
-            categories.push(file.name);
+            categories.push(file);
           }
         });
         return res.json(categories);
