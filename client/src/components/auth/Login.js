@@ -43,6 +43,23 @@ class Login extends Component {
     const { email, password, errors } = this.state;
     return (
       <div className="login">
+        {errors.notAuthorized && (
+          <div
+            className="alert alert-danger alert-dismissible fade show mt-3"
+            role="alert"
+          >
+            You don't have admin rights to login
+            <button
+              type="button"
+              className="close"
+              data-dismiss="alert"
+              aria-label="Close"
+              onClick={this.clearMessage}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        )}
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">

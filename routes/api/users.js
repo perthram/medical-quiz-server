@@ -76,29 +76,34 @@ router.post('/login', (req, res) => {
       return res.status(404).json(errors);
     }
 
-    //Check Password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        //User Matched
-        const payload = { id: user.id, name: user.name, avatar: user.avatar }; //Create JWT Payload
+    if (user.role === 'admin') {
+      //Check Password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          //User Matched
+          const payload = { id: user.id, name: user.name, avatar: user.avatar }; //Create JWT Payload
 
-        //Sign Token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 3600 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token,
-            });
-          }
-        );
-      } else {
-        errors.password = 'Password incorrect';
-        return res.status(400).json(errors);
-      }
-    });
+          //Sign Token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + token,
+              });
+            }
+          );
+        } else {
+          errors.password = 'Password incorrect';
+          return res.status(400).json(errors);
+        }
+      });
+    } else {
+      errors.notAuthorized = 'Unauthorized';
+      return res.status(401).json(errors);
+    }
   });
 });
 
