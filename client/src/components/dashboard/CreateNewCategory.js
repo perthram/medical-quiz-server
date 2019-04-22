@@ -37,13 +37,13 @@ class CreateNewCategory extends Component {
   };
   addNewField = e => {
     e.preventDefault();
-    const { fieldItems } = this.state;
+    const { fieldItems, showErrorForFields } = this.state;
     const len = fieldItems.length;
     let newFieldItems = fieldItems;
-    let showErrorForFields = [];
+    let nextErrorForFields = showErrorForFields;
     newFieldItems.push(
-      <div className="row" key={len + 1}>
-        <div className="col-md-6">
+      <div className="row mb-2" key={len + 1}>
+        <div className="col-md-5">
           <input
             type="text"
             className="form-control form-control-lg newCatFieldName"
@@ -52,7 +52,7 @@ class CreateNewCategory extends Component {
             onChange={this.removeItemFromErrorList.bind(this, 'name' + len + 1)}
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-5">
           <input
             type="text"
             className="form-control form-control-lg newCatFieldValue"
@@ -64,11 +64,36 @@ class CreateNewCategory extends Component {
             )}
           />
         </div>
+        <div className="col-md-2 p-2">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={this.removeField}
+          >
+            Remove
+          </button>
+        </div>
       </div>
     );
-    showErrorForFields.push('name' + len + 1, 'value' + len + 1);
+    nextErrorForFields.push('name' + len + 1, 'value' + len + 1);
 
-    this.setState({ fieldItems: newFieldItems, showErrorForFields });
+    this.setState({
+      fieldItems: newFieldItems,
+      showErrorForFields: nextErrorForFields,
+    });
+  };
+
+  removeField = () => {
+    let nextFields = this.state.fieldItems;
+    let nextErrorFields = this.state.showErrorForFields;
+    nextFields.pop();
+    nextErrorFields.pop();
+    nextErrorFields.pop();
+
+    this.setState({
+      fieldItems: nextFields,
+      showErrorForFields: nextErrorFields,
+    });
   };
 
   removeItemFromErrorList = item => {
@@ -116,7 +141,6 @@ class CreateNewCategory extends Component {
   render() {
     const { categoryname, errors, fieldItems, showErrorForFields } = this.state;
     const { message, categories } = this.props;
-
     return (
       <div className="create-new-category mt-4">
         <div className="container">
@@ -141,7 +165,7 @@ class CreateNewCategory extends Component {
                 />
                 {!isEmpty(fieldItems) &&
                   categories.indexOf(categoryname) === -1 &&
-                  fieldItems}
+                  fieldItems.map(fields => fields)}
                 {!isEmpty(categoryname) &&
                 categories.indexOf(categoryname) === -1 ? (
                   <input
