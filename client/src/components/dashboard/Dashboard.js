@@ -6,6 +6,7 @@ import FileUpload from './FileUpload';
 import SelectCategory from './SelectCategory';
 import CreateNewCategory from './CreateNewCategory';
 import classnames from 'classnames';
+import Profiles from '../profiles/Profiles';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -77,6 +78,20 @@ class Dashboard extends Component {
                   >
                     Create New Category
                   </a>
+                  <a
+                    className="nav-item nav-link"
+                    id="nav-student-profiles-tab"
+                    data-toggle="tab"
+                    href="#nav-student-profiles"
+                    role="tab"
+                    aria-controls="nav-student-profiles"
+                    aria-selected="false"
+                    onClick={() =>
+                      this.setState({ selectedTabId: 'student-profiles' })
+                    }
+                  >
+                    Student Profiles
+                  </a>
                 </div>
               </nav>
               <div className="tab-content" id="nav-tabContent">
@@ -119,6 +134,14 @@ class Dashboard extends Component {
                       categories={categories}
                     />
                   )}
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="nav-student-profiles"
+                  role="tabpanel"
+                  aria-labelledby="nav-student-profiles-tab"
+                >
+                  {selectedTabId === 'student-profiles' && <Profiles />}
                 </div>
               </div>
             </div>

@@ -7,6 +7,7 @@ const path = require('path');
 const users = require('./routes/api/users');
 const fileUpload = require('./routes/api/fileupload');
 const mobileusers = require('./routes/api/mobileuser');
+const profile = require('./routes/api/profile');
 
 const app = express();
 
@@ -33,6 +34,7 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 app.use('/api/fileupload', fileUpload);
 app.use('/api/mobile/users', mobileusers);
+app.use('/api/profile', profile);
 
 //Serve static assests if in production
 if (process.env.NODE_ENV === 'production') {

@@ -15,6 +15,9 @@ const MobileUserSchema = new Schema({
     type: String,
     required: true,
   },
+  rollnumber: {
+    type: String,
+  },
   avatar: {
     type: String,
   },
